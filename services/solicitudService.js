@@ -6,9 +6,8 @@ const createSolicitud = async (bookId, buyerId, sellerId, message, token) => {
     `${ms3Url}/api/solicitudes`,
     {
       book_id: bookId,
-      buyer_id: buyerId,
       seller_id: sellerId,
-      messages: [{ from: buyerId, text: message, date: new Date().toISOString() }],
+      initial_message: message,
     },
     { headers: { Authorization: `Bearer ${token}` } }
   );
