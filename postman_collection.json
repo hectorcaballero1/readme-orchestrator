@@ -1,0 +1,117 @@
+{
+  "info": {
+    "name": "MS4 Orquestador - ReadMe",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8004"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health",
+        "header": []
+      }
+    },
+    {
+      "name": "Crear solicitud",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/orders/solicitud",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"book_id\": 1,\n  \"message\": \"Hola, me interesa tu libro\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Aceptar solicitud",
+      "request": {
+        "method": "PUT",
+        "url": "{{base_url}}/api/orders/:id/accept",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/orders/:id/accept",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders", ":id", "accept"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "SOLICITUD_ID_AQUI"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Rechazar solicitud",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/orders/:id/reject",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders", ":id", "reject"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "SOLICITUD_ID_AQUI"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Cancelar solicitud",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/orders/:id/cancel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders", ":id", "cancel"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "SOLICITUD_ID_AQUI"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
