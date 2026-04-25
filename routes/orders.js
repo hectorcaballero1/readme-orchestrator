@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
-const { createOrder, acceptOrder, rejectOrder, cancelOrder } = require('../controllers/orderController');
+const { createOrder, getSellerProfileByBook, acceptOrder, rejectOrder, cancelOrder } = require('../controllers/orderController');
 
 /**
  * @swagger
@@ -43,6 +43,32 @@ const { createOrder, acceptOrder, rejectOrder, cancelOrder } = require('../contr
  *         description: Error al comunicarse con un microservicio externo
  */
 router.post('/solicitud', auth, createOrder);
+
+/**
+ * @swagger
+ * /api/orders/book/{bookId}/seller-profile:
+ *   get:
+ *     summary: Obtener el perfil del vendedor a partir del ID del libro
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Perfil del vendedor obtenido exitosamente
+ *       401:
+ *         description: Token inválido o ausente
+ *       404:
+ *         description: Vendedor no encontrado
+ *       502:
+ *         description: Error al comunicarse con un microservicio externo
+ */
+router.get('/book/:bookId/seller-profile', auth, getSellerProfileByBook);
 
 /**
  * @swagger

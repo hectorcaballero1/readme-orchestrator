@@ -5,7 +5,7 @@ const getUser = async (userId, token) => {
   const res = await axios.get(`${ms1Url}/api/users/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return res.data;
+  return res.data?.data ?? res.data;
 };
 
 module.exports = { getUser };

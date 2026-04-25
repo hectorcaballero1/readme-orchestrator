@@ -8,6 +8,13 @@ const getBook = async (bookId, token) => {
   return res.data;
 };
 
+const getBookOwner = async (bookId, token) => {
+  const res = await axios.get(`${ms2Url}/api/books/${bookId}/owner`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
 const setBookUnavailable = async (bookId, token) => {
   const res = await axios.put(
     `${ms2Url}/api/books/${bookId}/availability`,
@@ -26,4 +33,4 @@ const createTransaction = async (bookId, buyerId, sellerId, token) => {
   return res.data;
 };
 
-module.exports = { getBook, setBookUnavailable, createTransaction };
+module.exports = { getBook, getBookOwner, setBookUnavailable, createTransaction };

@@ -1,4 +1,4 @@
-const { getBook, setBookUnavailable, createTransaction } = require('../services/bookService');
+const { getBook, getBookOwner, setBookUnavailable, createTransaction } = require('../services/bookService');
 const { getUser } = require('../services/userService');
 const {
   createSolicitud,
@@ -11,6 +11,40 @@ const {
   sendRequestAcceptedNotification,
   sendRequestRejectedNotification,
 } = require('../services/emailService');
+
+const getBookOwnerId = (book) => book?.userId ?? book?.user_id ?? book?.ownerId ?? null;
+const getSellerProfileByBook = async (req, res) => {
+  const { bookId } = req.params;
+  const token = req.token;
+
+  let owner;
+  try {
+    owner = await getBookOwner(bookId, token);
+  } catch {
+    return res.status(502).json({ error: 'Error al obtener el vendedor del libro' });
+  }
+
+  const sellerId = owner?.user_id ?? owner?.userId ?? owner?.ownerId ?? null;
+  if (!sellerId) {
+    return res.status(404).json({ error: 'No se encontró el vendedor del libro' });
+  }
+
+  let seller;
+  try {
+    seller = await getUser(sellerId, token);
+  } catch {
+    return res.status(502).json({ error: 'Error al obtener el perfil del vendedor' });
+  }
+
+  return res.json({
+    data: {
+      book_id: Number(bookId),
+      user_id: sellerId,
+      seller,
+    },
+    message: 'Perfil del vendedor obtenido exitosamente',
+  });
+};
 
 const createOrder = async (req, res) => {
   const { book_id, message } = req.body;
@@ -35,7 +69,7 @@ const createOrder = async (req, res) => {
     return res.status(400).json({ error: 'El libro no está disponible' });
   }
 
-  const sellerId = book.user_id;
+  const sellerId = getBookOwnerId(book);
 
   if (String(buyerId) === String(sellerId)) {
     return res.status(400).json({ error: 'No puedes solicitar tu propio libro' });
@@ -249,4 +283,4 @@ const cancelOrder = async (req, res) => {
   return res.json({ data: updated, message: 'Solicitud cancelada' });
 };
 
-module.exports = { createOrder, acceptOrder, rejectOrder, cancelOrder };
+module.exports = { createOrder, getSellerProfileByBook, acceptOrder, rejectOrder, cancelOrder };
