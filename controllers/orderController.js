@@ -81,7 +81,6 @@ const createOrder = async (req, res) => {
     return res.status(502).json({ error: 'Error al validar el comprador' });
   }
 
-  // TODO: depends on MS3 implementing GET /api/solicitudes?book_id&buyer_id&status
   try {
     const existing = await findSolicitudes({ book_id, buyer_id: buyerId, status: 'pendiente' }, token);
     const list = Array.isArray(existing) ? existing : existing?.data ?? [];
@@ -156,7 +155,6 @@ const acceptOrder = async (req, res) => {
   }
 
   // Bulk reject other pending requests for the same book
-  // TODO: depends on MS3 implementing GET /api/solicitudes?book_id&status
   try {
     const others = await findSolicitudes({ book_id: solicitud.book_id, status: 'pendiente' }, token);
     const list = Array.isArray(others) ? others : others?.data ?? [];

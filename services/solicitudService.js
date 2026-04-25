@@ -30,8 +30,6 @@ const updateSolicitudStatus = async (solicitudId, status, token) => {
   return res.data;
 };
 
-// TODO: MS3 must implement GET /api/solicitudes?book_id=X&buyer_id=Y&status=pendiente
-// Required for duplicate validation and bulk rejection on accept.
 const findSolicitudes = async (params, token) => {
   const res = await axios.get(`${ms3Url}/api/solicitudes`, {
     params,

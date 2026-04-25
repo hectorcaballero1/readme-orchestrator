@@ -9,7 +9,7 @@ const getBook = async (bookId, token) => {
 };
 
 const getBookOwner = async (bookId, token) => {
-  const res = await axios.get(`${ms2Url}/api/books/${bookId}/owner`, {
+  const res = await axios.get(`${ms2Url}/api/books/${bookId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;
