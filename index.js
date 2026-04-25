@@ -8,7 +8,12 @@ const ordersRouter = require('./routes/orders');
 
 const app = express();
 
-app.use(cors());
+const allowedOrigin = process.env.ALLOWED_ORIGINS;
+app.use(cors({
+  origin: allowedOrigin || '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Authorization', 'Content-Type', 'X-Api-Key'],
+}));
 app.use(express.json());
 
 const swaggerSpec = swaggerJsdoc({
