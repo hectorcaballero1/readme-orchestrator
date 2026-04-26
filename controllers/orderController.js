@@ -281,4 +281,28 @@ const cancelOrder = async (req, res) => {
   return res.json({ data: updated, message: 'Solicitud cancelada' });
 };
 
-module.exports = { createOrder, getSellerProfileByBook, acceptOrder, rejectOrder, cancelOrder };
+const getMisSolicitudesHandler = async (req, res) => {
+  const userId = req.userId;
+  const token = req.token;
+  try {
+    const result = await findSolicitudes({ buyer_id: userId }, token);
+    const data = Array.isArray(result) ? result : result?.data ?? [];
+    return res.json({ data });
+  } catch {
+    return res.status(502).json({ error: 'Error al obtener las solicitudes' });
+  }
+};
+
+const getMisVentasHandler = async (req, res) => {
+  const userId = req.userId;
+  const token = req.token;
+  try {
+    const result = await findSolicitudes({ seller_id: userId }, token);
+    const data = Array.isArray(result) ? result : result?.data ?? [];
+    return res.json({ data });
+  } catch {
+    return res.status(502).json({ error: 'Error al obtener las ventas' });
+  }
+};
+
+module.exports = { createOrder, getSellerProfileByBook, acceptOrder, rejectOrder, cancelOrder, getMisSolicitudesHandler, getMisVentasHandler };

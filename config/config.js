@@ -6,6 +6,7 @@ module.exports = {
   ms1Url: process.env.MS1_URL || 'http://localhost:8001',
   ms2Url: process.env.MS2_URL || 'http://localhost:8002',
   ms3Url: process.env.MS3_URL || 'http://localhost:8003',
+  ms6Url: process.env.MS6_URL || 'http://localhost:8006',
   resendApiKey: process.env.RESEND_API_KEY,
   emailFrom: process.env.EMAIL_FROM || 'ReadMe <onboarding@resend.dev>',
 };
