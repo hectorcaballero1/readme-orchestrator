@@ -42,7 +42,7 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/orders', ordersRouter);
 
-app.get('/health', (req, res) => res.json({ status: 'ok', service: 'ms4-orchestrator' }));
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.listen(port, () => {
   console.log(`MS4 Orquestador corriendo en http://localhost:${port}`);
